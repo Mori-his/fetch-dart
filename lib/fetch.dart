@@ -13,19 +13,19 @@ class Request {
 }
 
 class Header {
-  Map<String, dynamic> _headers = new Map();
+  Map<String, dynamic> _headers = {};
   Header(Map<String, dynamic> headers) {
-    if (headers.length > 0) {
-      if (headers["uri"]) {
-        // new Error
-      }
+    if (!(headers["uri"] is Uri)) {
+      throw new TypeError();
     }
+    this._headers = headers;
   }
   /**
    * 添加指定key
    */
   add(String key, dynamic value) {
     this._headers[key] = value;
+    return this;
   }
 
   /**
@@ -33,6 +33,7 @@ class Header {
    */
   remove(String key) {
     this._headers.remove(key);
+    return this;
   }
 }
 
@@ -62,8 +63,8 @@ class Fetch {
       final Header headers = new Header(input);
       return;
     } else if (input is String) {
-      Header headers = new Header(new Map());
-      headers.add("uri", Uri.parse(input));
+      Map<String, dynamic> _headers = {"uri": Uri.parse(input)};
+      Header headers = new Header(_headers);
     }
   }
 }
