@@ -1,0 +1,3 @@
+name: testPub
+dependencies:
+  path: ^1.6.2
